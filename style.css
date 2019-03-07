@@ -2,3 +2,8 @@
 #display {
   background-color: black;
 }
+
+p {
+  font-family: optima, sans-serif;
+  text-align: center;
+}
