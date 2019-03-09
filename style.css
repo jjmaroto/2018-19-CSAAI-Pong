@@ -1,9 +1,43 @@
 
 #display {
   background-color: black;
+  margin-left: 50px;
+}
+
+.instrucciones {
+  padding: 10px;
 }
 
 p {
   font-family: optima, sans-serif;
+  text-align: center;
+}
+
+a:link {
+  color: SlateGrey;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: plum;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: SlateBlue;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: PeachPuff;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.end {
+  padding: 10px;
   text-align: center;
 }
