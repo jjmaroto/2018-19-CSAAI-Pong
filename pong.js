@@ -148,10 +148,13 @@ function main(){
     //-- Dibujar la bola:
     draw: function () {
       this.ctx.fillStyle = 'lightblue';
+
+      ctx.beginPath();
+      //-- Dibujar un circulo: coordenadas x,y del centro
+      //-- Radio, Angulo inicial y angulo final
+      ctx.arc(this.x, this.y, 5, 0, 2 * Math.PI);
       //-- BOLA CUADRADA:
-      //this.ctx.fillRect(this.x, this.y, this.width, this.height)
-      //-- BOLA REDONDA:
-      this.ctx.arc(this.x,this.y,5,0,(Math.PI/180)*360,true);
+      // this.ctx.fillRect(this.x, this.y, this.width, this.height)
       this.ctx.fill()
     },
 
@@ -179,9 +182,11 @@ function main(){
 
     if (!timer){
       timer = setInterval(() =>{
+
         ball.update();
-        ctx.clearRect(0,0,canvas.WIDTH, canvas.HEIGHT);
+        ctx.clearRect(0,0,canvas.width, canvas.height);
         ball.draw();
+        console.log("Funciona!")
 
       }, 20);
     }
