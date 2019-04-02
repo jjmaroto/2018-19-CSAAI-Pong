@@ -46,6 +46,9 @@ function makePaddles (x,y, HEIGHT){
   this.x_ini = x;
   this.y_ini = y;
 
+  this.width = 10;
+  this.height = 50;
+
   this.vy = 0;
   this.speed = 5;
 
@@ -56,7 +59,7 @@ function makePaddles (x,y, HEIGHT){
 
   this.draw = function () {
     this.ctx.fillStyle = 'black';
-    this.ctx.fillRect(this.x, this.y, 10, 50);
+    this.ctx.fillRect(this.x, this.y, this.width, this.height);
   };
 
   this.reset = function (){
@@ -78,6 +81,9 @@ function makeBall() {
   this.x = 0;
   this.y = 0;
 
+  this.width = 5;
+  this.height = 5;
+
   this.vx = 5;
   this.vy = 2;
 
@@ -97,18 +103,16 @@ function makeBall() {
     this.ctx.fill()
   };
 
-  //-- Update
   this.update = function () {
     this.x += this.vx;
     this.y += this.vy;
+
+    this.vy = - this.vy;
   };
 
-  //-- Reset: Set the ball to the initial state
   this.reset = function() {
     this.x = this.x_ini;
     this.y = this.y_ini;
-
-    this.vy = - this.vy;
   };
 }
 
@@ -153,6 +157,31 @@ function movePaddles(paddle1, paddle2) {
   }
 }
 
+function restartBall(player, ball, paddle1, paddle2){
+  //-- Marca el Jugador1 -> saca 2:
+  if (player == 'Jugador1'){
+    ball.x_ini = 550;
+    ball.y_ini = 200;
+
+    ball.vx = -ball.vx;
+
+  } else if (player == 'Jugador2'){
+    ball.x_ini = 50;
+    ball.y_ini = 100;
+
+    ball.vx = -ball.vx;
+  };
+
+  ball.reset();
+  paddle1.reset();
+  paddle2.reset();
+  ball.draw();
+  paddle1.draw();
+  paddle2.draw();
+}
+
+//-- FALTA COMPROBAR LA DIFICULTAD!!
+
 function main(){
 
   var canvas = document.getElementById('display')
@@ -189,6 +218,8 @@ function main(){
 
     if (!timer){
       timer = setInterval(() =>{
+        //-- COMPROBAR LA DIFICULTAD!
+
         //-- Actualizar elementos:
         paddle1.update();
         paddle2.update();
@@ -202,6 +233,18 @@ function main(){
         score.draw();
 
         movePaddles(paddle1, paddle2);
+
+        if (ball.x > canvas.width - ball.width){
+          score.score1++;
+          //-- Saca Jugador2:
+          restartBall('Jugador1', ball, paddle1, paddle2);
+
+        } else if (ball.x < ball.width){
+          score.score2++;
+          //-- Saca Jugador1:
+          restartBall('Jugador2', ball, paddle1, paddle2);
+
+        }
 
       }, 20);
     }
