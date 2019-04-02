@@ -9,15 +9,27 @@
   <body onload="main();">
    <p> LET'S ENJOY!</p>
    <hr>
-   <canvas id="display"></canvas>
+
    <br>
 
-   <div class="instrucciones">
-     <p> Para mover la raqueta: ↑↓ </p>
-     <p> Para sacar la pelota pulsar SCAPE </p>
-     <button id="up"> UP↑ </button>
-     <button id="down"> DOWN↓</button>
+   <div id="instrucciones">
+     <p> Player 1: w and s </p>
+     <p> Player 2: UP↑ and DOWN↓ </p>
      <button id="start"> START </button>
+     <br>
+   </div>
+   <canvas id="display"></canvas>
+
+   <div id="options">
+     <p> <i> Select the score: </i> </p>
+     <input type= "radio" name="points" value="3" checked> 3
+     <input type= "radio" name="points" value="5"> 5
+     <input type= "radio" name="points" value="7"> 7
+     <br>
+     <p> <i> Select the difficulty: </i> </p>
+     <input type= "radio" name="dif" value="easy" checked> EASY
+     <input type= "radio" name="dif" value="normal"> NORMAL
+     <input type= "radio" name="dif" value="hard"> HARD
    </div>
    <hr>
    <div class="end">
