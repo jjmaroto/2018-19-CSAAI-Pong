@@ -1,23 +1,36 @@
 
-#display {
+body {
   background-color: black;
+}
+
+#display {
+  background-color: lightgray;
   display: block;
   overflow: auto;
   margin: 0 auto;
+  border: 4px solid plum;
 }
 
-.instrucciones {
-  padding: 10px;
+#instrucciones {
   font-family: optima, sans-serif;
   text-align: center;
+  color: white;
+  font-size: 15px;
+  background: black;
+  border: 2px solid lightgray;
+  margin: 0 0 10px;
 }
 
 button {
+  color: white;
   background-color: lightgray;
   border-radius: 10px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 p {
+  color: white;
   font-family: optima, sans-serif;
   text-align: center;
 }
@@ -46,7 +59,16 @@ a:active {
   text-decoration: underline;
 }
 
+#options {
+  border: 2px solid lightgray;
+  margin-top: 20px;
+  color: white;
+  text-align: center;
+  font-family: optima, sans-serif;
+}
+
 .end {
+  color: white;
   padding: 10px;
   text-align: center;
 }
