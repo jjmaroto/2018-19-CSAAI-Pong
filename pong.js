@@ -87,7 +87,7 @@ function makeBall() {
   };
 
   this.draw = function () {
-    this.ctx.fillStyle = 'plum';
+    this.ctx.fillStyle = 'yellow';
     this.ctx.beginPath();
     //-- Dibujar un circulo: coordenadas x,y del centro
     //-- Radio, Angulo inicial y angulo final
@@ -110,6 +110,47 @@ function makeBall() {
 
     this.vy = - this.vy;
   };
+}
+
+function movePaddles(paddle1, paddle2) {
+  window.onkeydown = (e) => {
+    e.preventDefault();
+    switch (e.key) {
+      case 'w':
+          paddle1.vy = -1;
+          break;
+      case 's':
+          paddle1.vy = 1;
+          break;
+      case 'ArrowUp':
+          paddle2.vy = -1;
+          break;
+      case 'ArrowDown':
+          paddle2.vy = 1;
+          break;
+      default:
+          break;
+    }
+  }
+  window.onkeyup = (e) => {
+    e.preventDefault();
+    switch (e.key) {
+      case 'w':
+          paddle1.vy = 0;
+          break;
+      case 's':
+          paddle1.vy = 0;
+          break;
+      case 'ArrowUp':
+          paddle2.vy = 0;
+          break;
+      case 'ArrowDown':
+          paddle2.vy = 0;
+          break;
+      default:
+          break;
+    }
+  }
 }
 
 function main(){
@@ -159,6 +200,8 @@ function main(){
         paddle1.draw();
         paddle2.draw();
         score.draw();
+
+        movePaddles(paddle1, paddle2);
 
       }, 20);
     }
