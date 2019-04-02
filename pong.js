@@ -50,7 +50,7 @@ function makePaddles (x,y, HEIGHT){
   this.height = 50;
 
   this.vy = 0;
-  this.speed = 5;
+  this.speed = 5; //-- Nivel de dificultad: EASY, NORMAL, HARD
 
   this.init = function(ctx){
     this.reset();
@@ -68,13 +68,21 @@ function makePaddles (x,y, HEIGHT){
   };
 
   this.update = function() {
+    //-- Movimiento de la pala según el nivel de dificultad:
     this.y += this.vy*this.speed;
+    //-- Para que no se salgan del canvas:
+    if (this.y > HEIGHT - this.height){
+      this.y = HEIGHT - this.height;
+    } else if (this.y < 0){
+      this.y = 0;
+    }
   };
 }
 
 function makeBall() {
   this.ctx = null;
 
+  //-- Inicialmente saca el Jugador1:
   this.x_ini = 85;
   this.y_ini = 125;
 
@@ -86,6 +94,7 @@ function makeBall() {
 
   this.vx = 5;
   this.vy = 2;
+  this.speed = 1; //-- Nivel de dificultad: EASY, NORMAL, HARD
 
   this.init = function(ctx){
     this.reset();
@@ -104,10 +113,12 @@ function makeBall() {
   };
 
   this.update = function () {
-    this.x += this.vx;
-    this.y += this.vy;
+    this.x += this.vx*this.speed;
+    this.y += this.vy*this.speed;
 
-    this.vy = - this.vy;
+    if (this.y > HEIGHT - this.height || this.y < this.height){
+      this.vy = -this.vy;
+    }
   };
 
   this.reset = function() {
@@ -157,19 +168,34 @@ function movePaddles(paddle1, paddle2) {
   }
 }
 
+//-- Función para el rebote de la bola: REPASAR!!
+function pushBall(paddle1, paddle2, ball){
+  if (ball.x <= paddle1.x){
+    if (ball.y >= paddle1.y){
+      ball.vx = -ball.vx;
+    }
+  };
+
+  if ((ball.x + ball.width) >= paddle2.x){
+    if ((ball.y + ball.height) >= paddle2.y){
+      ball.vx = -ball.vx;
+    }
+  };
+}
+
 function restartBall(player, ball, paddle1, paddle2){
   //-- Marca el Jugador1 -> saca 2:
   if (player == 'Jugador1'){
     ball.x_ini = 550;
     ball.y_ini = 200;
 
-    ball.vx = -ball.vx;
+    //ball.vx = -ball.vx;
 
   } else if (player == 'Jugador2'){
     ball.x_ini = 50;
     ball.y_ini = 100;
 
-    ball.vx = -ball.vx;
+    //ball.vx = -ball.vx;
   };
 
   ball.reset();
@@ -180,7 +206,29 @@ function restartBall(player, ball, paddle1, paddle2){
   paddle2.draw();
 }
 
-//-- FALTA COMPROBAR LA DIFICULTAD!!
+function makeDifficulty(ball, paddle1, paddle2){
+  var dif = document.querySelector('input[name="dif"]:checked').value;
+
+  switch (dif) {
+    case 'easy':
+        ball.speed = 1;
+        paddle1.speed = 4;
+        paddle2.speed = 4;
+        break;
+    case 'normal':
+        ball.speed = 1.5;
+        paddle1.speed = 6;
+        paddle2.speed = 6;
+        break;
+    case 'hard':
+        ball.speed = 2;
+        paddle1.speed = 8;
+        paddle2.speed = 8;
+        break;
+    default:
+        break;
+  }
+}
 
 function main(){
 
@@ -215,10 +263,13 @@ function main(){
 
   //-- Comienza la animación!
   start.onclick = () => {
+    //-- Score selected:
+    var points = document.querySelector('input[name="points"]:checked').value;
 
     if (!timer){
       timer = setInterval(() =>{
-        //-- COMPROBAR LA DIFICULTAD!
+        //-- En función de la dificultad escogida:
+        makeDifficulty(ball, paddle1, paddle2);
 
         //-- Actualizar elementos:
         paddle1.update();
@@ -233,19 +284,47 @@ function main(){
         score.draw();
 
         movePaddles(paddle1, paddle2);
+        pushBall(paddle1, paddle2, ball);
 
         if (ball.x > canvas.width - ball.width){
           score.score1++;
           //-- Saca Jugador2:
           restartBall('Jugador1', ball, paddle1, paddle2);
 
+          ball.vx = -ball.vx;
+
         } else if (ball.x < ball.width){
           score.score2++;
           //-- Saca Jugador1:
           restartBall('Jugador2', ball, paddle1, paddle2);
 
+          ball.vx = -ball.vx;
         }
 
+        //-- En función de la puntuación máxima:
+        if (score.score1 == points || score.score2 == points){
+
+          if (score.score1 == points){
+            alert("Player1 WINS - Congratulations!")
+          } else if (score.score2 == points){
+            alert("Player2 WINS - Congratulations!")
+          }
+
+          clearInterval(timer);
+          timer = null;
+          //-- Limpiamos el canvas:
+          ctx.clearRect(0,0,canvas.width, canvas.height);
+          //-- Reseteamos y dibujamos:
+          ball.reset();
+          paddle1.reset();
+          paddle2.reset();
+          score.reset();
+
+          ball.draw();
+          paddle1.draw();
+          paddle2.draw();
+          score.draw();
+        }
       }, 20);
     }
   } //-- FIN ONCLICK;
