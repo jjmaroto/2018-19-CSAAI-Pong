@@ -17,7 +17,6 @@ body {
   color: white;
   font-size: 15px;
   background: black;
-  border: 2px solid lightgray;
   margin: 0 0 10px;
 }
 
@@ -60,7 +59,6 @@ a:active {
 }
 
 #options {
-  border: 2px solid lightgray;
   margin-top: 20px;
   color: white;
   text-align: center;
