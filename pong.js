@@ -168,16 +168,16 @@ function movePaddles(paddle1, paddle2) {
   }
 }
 
-//-- Función para el rebote de la bola: REPASAR!!
+//-- Función para el REBOTE de la bola:
 function pushBall(paddle1, paddle2, ball){
-  if (ball.x <= paddle1.x){
-    if (ball.y >= paddle1.y){
+  if (ball.x <= (paddle1.x + paddle1.width) && ball.x >= paddle1.x) {
+    if (ball.y >= paddle1.y && ball.y <= (paddle1.y + paddle1.height)){
       ball.vx = -ball.vx;
     }
   };
 
-  if ((ball.x + ball.width) >= paddle2.x){
-    if ((ball.y + ball.height) >= paddle2.y){
+  if ((ball.x + ball.width) >= paddle2.x && (ball.x+ ball.width) <= (paddle2.x + paddle2.width)){
+    if ((ball.y + ball.height) <= (paddle2.y + paddle2.height) && (ball.y + ball.height) >= paddle2.y){
       ball.vx = -ball.vx;
     }
   };
